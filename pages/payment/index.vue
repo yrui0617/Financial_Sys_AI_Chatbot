@@ -57,12 +57,12 @@ const filteredPayments = computed(() => {
 const paymentTableData = computed(() =>
   filteredPayments.value.map((payment) => ({
     paymentId: payment.paymentID,
-    Description: payment.paymentDescription,
-    Amount: payment.paymentAmount,
-    Status: payment.paymentStatus,
-    CreatedDate: payment.paymentCreatedDate,
-    SourceBillId: payment.paymentBillID,
-    ...(isStaff.value ? { PayerId: payment.paymentPayerID } : {}),
+    description: payment.paymentDescription,
+    amount: payment.paymentAmount,
+    status: payment.paymentStatus,
+    paidAt: payment.paymentPaidAt,
+    sourceBillId: payment.paymentBillID,
+    ...(isStaff.value ? { payerId: payment.paymentPayerID } : {}),
   }))
 );
 
@@ -101,8 +101,11 @@ const formatCurrency = (value) => {
 
 // ---------------- DATE ----------------
 const formatDate = (date) => {
-  if (!date) return '';
-  return date.split('T')[0];
+  return new Intl.DateTimeFormat('en-MY', {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit'
+  }).format(new Date(date));
 };
 
 // -------------------- TOAST MESSAGES --------------------
@@ -185,21 +188,21 @@ const showError = (msg) => {
           }"
           advanced
         >
-          <template v-slot:Amount="data">
+          <template v-slot:amount="data">
             {{ formatCurrency(data.text) }}
           </template>
 
-          <template v-slot:CreatedDate="data">
-            {{ formatDate(data.text) }}
-          </template>
-
-          <template v-slot:Status="data">
+          <template v-slot:status="data">
             <rs-badge :variant="getStatusVariant(data.text)">
               {{ data.text }}
             </rs-badge>
           </template>
+          
+          <template v-slot:paidAt="data">
+            {{ formatDate(data.text) }}
+          </template>
 
-          <template v-slot:SourceBillId="data">
+          <template v-slot:sourceBillId="data">
             #B00{{ data.text }}
           </template>
         </rs-table>

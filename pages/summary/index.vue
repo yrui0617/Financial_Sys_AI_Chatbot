@@ -113,8 +113,8 @@ function createPaymentRow(payment) {
     paymentId: payment.paymentID,
     paymentDescription: payment.paymentDescription,
     paymentAmount: payment.paymentAmount,
-    paymentPaidAt: payment.paymentPaidAt,
     paymentStatus: payment.paymentStatus,
+    paymentPaidAt: payment.paymentPaidAt,
     sourceBillId: payment.paymentBillID,
     ...(isStaff.value ? { paymentPayerId: payment.paymentPayerID } : {}),
   };
