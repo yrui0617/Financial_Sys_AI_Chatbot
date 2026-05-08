@@ -296,7 +296,7 @@ const getStatusVariant = (status) => {
               {{ formatCurrency(data.text) }}
             </template>
 
-            <template v-slot:paymentCreatedDate="data">
+            <template v-slot:paymentPaidAt="data">
               {{ formatDate(data.text) }}
             </template>
 
