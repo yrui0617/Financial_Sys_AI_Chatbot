@@ -105,7 +105,11 @@ const recentVoucherTableData = computed(() =>
 );
 
 const recentPaymentTableData = computed(() =>
-  recentPayments.value.map((payment) => ({
+  recentPayments.value.map(createPaymentRow)
+);
+
+function createPaymentRow(payment) {
+  const row = {
     paymentId: payment.paymentID,
     paymentDescription: payment.paymentDescription,
     paymentAmount: payment.paymentAmount,
@@ -113,8 +117,15 @@ const recentPaymentTableData = computed(() =>
     paymentStatus: payment.paymentStatus,
     sourceBillId: payment.paymentBillID,
     ...(isStaff.value ? { paymentPayerId: payment.paymentPayerID } : {}),
-  }))
-);
+  };
+
+  Object.defineProperty(row, 'rawPayment', {
+    value: payment,
+    enumerable: false,
+  });
+
+  return row;
+}
 
 // -------------------- UTIL --------------------
 const formatCurrency = (value) => {
