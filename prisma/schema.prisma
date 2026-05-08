@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model audit {
+  auditID          Int       @id @default(autoincrement())
+  auditIP          String?   @db.VarChar(255)
+  auditURL         String?   @db.VarChar(255)
+  auditURLMethod   String?   @db.VarChar(255)
+  auditURLPayload  String?   @db.VarChar(255)
+  auditCreatedDate DateTime? @default(now())
+}
+
+model lookup {
+  lookupID           Int       @id @default(autoincrement())
+  lookupOrder        Int?
+  lookupTitle        String?   @db.VarChar(255)
+  lookupRefCode      String?   @db.VarChar(255)
+  lookupValue        String?   @db.VarChar(255)
+  lookupType         String?   @db.VarChar(255)
+  lookupStatus       String?   @db.VarChar(255)
+  lookupCreatedDate  DateTime? @default(now())
+  lookupModifiedDate DateTime? @default(now())
+}
+
+model role {
+  roleID           Int        @id @default(autoincrement())
+  roleName         String?    @db.VarChar(255)
+  roleDescription  String?    @db.VarChar(255)
+  roleStatus       String?    @db.VarChar(255)
+  roleCreatedDate  DateTime?  @default(now())
+  roleModifiedDate DateTime?  @default(now())
+  userrole         userrole[]
+}
+
+model user {
+  userID           Int        @id @default(autoincrement())
+  userSecretKey    String?    @db.VarChar(255)
+  userUsername     String?    @db.VarChar(255)
+  userPassword     String?    @db.VarChar(255)
+  userFullName     String?    @db.VarChar(255)
+  userEmail        String?    @db.VarChar(255)
+  userPhone        String?    @db.VarChar(255)
+  userStatus       String?    @db.VarChar(255)
+  userCreatedDate  DateTime?  @default(now())
+  userModifiedDate DateTime?  @default(now())
+  userrole         userrole[]
+  createdBills     bill[]     @relation("BillCreator")
+  payableBills     bill[]     @relation("BillPayer")
+  payments         payment[]
+  vouchers         voucher[]
+}
+
+model userrole {
+  userRoleID          Int      @id @default(autoincrement())
+  userRoleUserID      Int      @default(0)
+  userRoleRoleID      Int      @default(0)
+  userRoleCreatedDate DateTime @default(now())
+  role                role     @relation(fields: [userRoleRoleID], references: [roleID], onDelete: NoAction, onUpdate: NoAction, map: "FK_userrole_role")
+  user                user     @relation(fields: [userRoleUserID], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "FK_userrole_user")
+
+  @@index([userRoleRoleID])
+  @@index([userRoleUserID])
+}
+
+model site_settings {
+  settingID            Int       @id @default(autoincrement())
+  siteName             String?   @db.VarChar(255)
+  siteNameFontSize     Int?      @default(18)
+  siteDescription      String?   @db.Text
+  siteLogo             String?   @db.VarChar(500)
+  siteLoadingLogo      String?   @db.VarChar(500)
+  siteFavicon          String?   @db.VarChar(500)
+  showSiteNameInHeader Boolean?  @default(true)
+  primaryColor         String?   @db.VarChar(50)
+  secondaryColor       String?   @db.VarChar(50)
+  successColor         String?   @db.VarChar(50)
+  infoColor            String?   @db.VarChar(50)
+  warningColor         String?   @db.VarChar(50)
+  dangerColor          String?   @db.VarChar(50)
+  customCSS            String?   @db.Text
+  themeMode            String?   @db.VarChar(50)
+  customThemeFile      String?   @db.VarChar(500)
+  currentFont          String?   @db.VarChar(255)
+  fontSource           String?   @db.VarChar(500)
+  seoTitle             String?   @db.VarChar(255)
+  seoDescription       String?   @db.Text
+  seoKeywords          String?   @db.Text
+  seoAuthor            String?   @db.VarChar(255)
+  seoOgImage           String?   @db.VarChar(500)
+  seoTwitterCard       String?   @default("summary_large_image") @db.VarChar(50)
+  seoCanonicalUrl      String?   @db.VarChar(500)
+  seoRobots            String?   @default("index, follow") @db.VarChar(100)
+  seoGoogleAnalytics   String?   @db.VarChar(255)
+  seoGoogleTagManager  String?   @db.VarChar(255)
+  seoFacebookPixel     String?   @db.VarChar(255)
+  settingCreatedDate   DateTime? @default(now())
+  settingModifiedDate  DateTime? @default(now())
+  siteLoginLogo        String?   @db.VarChar(500)
+}
+
+model bill {
+  billID          Int       @id @default(autoincrement())
+  billDescription    String    @db.VarChar(255)
+  billAmount         Decimal   @db.Decimal(10, 2)
+  billCreatedDate    DateTime  @default(now())
+  billApprovalStatus String    @default("Pending") @db.VarChar(50)
+  billPaymentStatus  String    @default("Unpaid") @db.VarChar(50)
+  billCreatorID      Int
+  billCreator        user      @relation("BillCreator", fields: [billCreatorID], references: [userID])
+  billPayerID        Int
+  billPayer          user      @relation("BillPayer", fields: [billPayerID], references: [userID])
+  payment     payment[]
+  vouchers    voucher[]
+  @@index([billCreatorID])
+  @@index([billPayerID])
+}
+
+model voucher {
+  voucherID          Int      @id @default(autoincrement())
+  voucherDescription String   @db.VarChar(255)
+  voucherAmount      Decimal  @db.Decimal(10, 2)
+  voucherCreatedDate DateTime @default(now())
+  voucherStatus      String   @default("Pending") @db.VarChar(50)
+  voucherBillID      Int
+  voucherBill        bill     @relation(fields: [voucherBillID], references: [billID])
+  voucherCreatorID   Int
+  voucherCreator     user     @relation(fields: [voucherCreatorID], references: [userID])
+
+  @@index([voucherBillID])
+  @@index([voucherCreatorID])
+}
+
+model payment {
+  paymentID            Int       @id @default(autoincrement())
+
+  paymentDescription   String    @db.VarChar(255)
+  paymentAmount        Decimal   @db.Decimal(10, 2)
+
+  paymentStatus        String    @default("Pending") @db.VarChar(50)
+
+  paymentTransactionID String?   @db.VarChar(255)
+
+  paymentPaidAt        DateTime? @default(now())
+
+  paymentBillID        Int
+  paymentBill          bill      @relation(fields: [paymentBillID], references: [billID])
+
+  paymentPayerID       Int
+  paymentPayer         user      @relation(fields: [paymentPayerID], references: [userID])
+
+  @@index([paymentBillID])
+  @@index([paymentPayerID])
+}
+
+model conversation {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  title     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  message[]
+}
+
+model message {
+  id             Int          @id @default(autoincrement())
+  conversationId Int
+  role           String
+  content        String?      @db.Text
+  createdAt      DateTime     @default(now())
+  conversation   conversation @relation(fields: [conversationId], references: [id])
+
+  @@index([conversationId])
+}
