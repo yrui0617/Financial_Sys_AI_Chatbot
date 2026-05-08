@@ -26,7 +26,7 @@
   "homepage": "https://git.sena.my/corrad-software/corrad-af-2024",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
+    "build": "prisma generate && nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
