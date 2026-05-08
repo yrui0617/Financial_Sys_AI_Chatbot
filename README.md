@@ -4,7 +4,7 @@ A comprehensive financial management system built with modern web technologies, 
 
 ## 🌐 Deployment
 The application is deployed on Vercel:
-- Live URL: [https://financial-sys-ai-chatbot-yrui.vercel.app/]
+- Live URL: https://financial-sys-ai-chatbot-yrui.vercel.app/
 
 ## 🎯 Overview
 
