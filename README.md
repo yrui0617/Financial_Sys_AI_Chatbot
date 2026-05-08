@@ -6,9 +6,18 @@ A comprehensive financial management system built with modern web technologies, 
 The application is deployed on Vercel:
 - Live URL: https://financial-sys-ai-chatbot-yrui.vercel.app/
 ## 👨‍💻 Account
-- Admin:{ username: admin, password: abc123}
-- Staff:{ username: staff, password: abc123}
-- User:{ username: user, password: abc123}
+- Admin:{ 
+    username: admin, 
+    password: abc123
+    }
+- Staff:{ 
+    username: staff, 
+    password: abc123
+    }
+- User:{ 
+    username: user1, 
+    password: abc123
+    }
 
 ## 🎯 Overview
 
