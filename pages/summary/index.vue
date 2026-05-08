@@ -109,7 +109,7 @@ const recentPaymentTableData = computed(() =>
     paymentId: payment.paymentID,
     paymentDescription: payment.paymentDescription,
     paymentAmount: payment.paymentAmount,
-    paymentCreatedDate: payment.paymentCreatedDate,
+    paymentPaidAt: payment.paymentPaidAt,
     paymentStatus: payment.paymentStatus,
     sourceBillId: payment.paymentBillID,
     ...(isStaff.value ? { paymentPayerId: payment.paymentPayerID } : {}),
