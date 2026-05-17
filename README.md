@@ -5,6 +5,8 @@ A comprehensive financial management system built with modern web technologies, 
 ## 🌐 Deployment
 The application is deployed on Vercel:
 - Live URL: https://financial-sys-ai-chatbot-yrui.vercel.app/
+- Notes: The system was deployed on the Vercel, and AI Chatbot was deployed on the Render as free plan, so it will spin down with inactivity, to activate it need wait for around 60 seconds.
+  
 ## 👨‍💻 Account
 - Admin:{ 
     username: admin, 
