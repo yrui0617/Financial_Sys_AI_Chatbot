@@ -138,4 +138,3 @@ The AI Chatbot is built with a sophisticated multi-layered architecture designed
 ### AI & LLM
 - **Ollama** - Local and remote LLM inference
 - **Groq API** - High-performance LLM backend
-- **Pydantic** - Data validation for API requests
