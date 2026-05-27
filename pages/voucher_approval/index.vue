@@ -43,7 +43,7 @@ const approvalTableData = computed(() =>
     "Description": voucher.voucherDescription,
     "Amount": voucher.voucherAmount,
     "Status": voucher.voucherStatus,
-    "Created Date": voucher.voucherCreatedDate,
+    "CreatedDate": voucher.voucherCreatedDate,
     "SourceBillId": voucher.voucherBillID,
     "CreatorId": voucher.voucherCreatorID,
     action: '',
