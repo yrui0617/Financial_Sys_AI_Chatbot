@@ -46,6 +46,7 @@ const approvalTableData = computed(() =>
     ApprovalStatus: bill.billApprovalStatus,
     CreatedDate: bill.billCreatedDate,
     CreatorId: bill.billCreatorID,
+    PayerId: bill.billPayerID,
     action: '',
   }))
 );
