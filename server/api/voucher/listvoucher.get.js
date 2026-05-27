@@ -22,6 +22,7 @@ export default defineEventHandler(async (event) => {
       where = {
         voucherBill: {
           billPayerID: userID,
+          billApprovalStatus: "Approved",
         },
       };
     }
