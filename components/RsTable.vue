@@ -6,7 +6,7 @@ const layoutStore = useLayoutStore();
 const mobileWidth = layoutStore.mobileWidth;
 
 const { width } = useWindowSize();
-const windowWidth = ref(width);
+const windowWidth = width;
 
 const props = defineProps({
   field: {
@@ -678,34 +678,43 @@ watch(
           <rs-collapse v-if="computedData.length > 0" accordion>
             <rs-collapse-item v-for="(val, index) in computedData" :key="index">
               <template #title>
-                <div class="grid grid-cols-2">
-                  <div class="flex flex-col col-span-1">
-                    <span class="font-semibold leading-tight">
-                      {{ Object.values(val)[0] }}
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div
+                    v-for="(entry, entryIndex) in Object.entries(val).slice(0, 3)"
+                    :key="entryIndex"
+                  >
+                    <span class="text-xs text-gray-500 block">
+                      {{ camelCasetoTitle(entry[0]) }}
                     </span>
-                    <span class="text-sm"> {{ Object.values(val)[1] }} </span>
-                  </div>
-                  <div class="flex justify-end items-center col-span-1">
-                    <div class="mr-4">
-                      {{ Object.values(val)[computedData.length] }}
-                    </div>
+                    <span class="font-semibold block whitespace-normal break-words">
+                      <slot
+                        :name="entry[0]"
+                        :text="entry[1]"
+                        :value="val"
+                      >
+                        {{ entry[1] }}
+                      </slot>
+                    </span>
                   </div>
                 </div>
               </template>
               <template #default>
                 <div
-                  class="flex justify-between items-center even:bg-inherit odd:bg-[rgb(var(--bg-1))] rounded-lg p-3"
-                  v-for="(val1, index1) in Object.entries(val).slice(
-                    2,
-                    Object.entries(val).length
-                  )"
-                  :key="index1"
+                  class="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center even:bg-inherit odd:bg-[rgb(var(--bg-1))] rounded-lg p-3"
+                  v-for="(entry, entryIndex) in Object.entries(val).slice(3)"
+                  :key="entryIndex"
                 >
-                  <span>
-                    {{ camelCasetoTitle(val1[0]) }}
+                  <span class="text-sm text-[rgb(var(--text-color))] min-w-[120px]">
+                    {{ camelCasetoTitle(entry[0]) }}
                   </span>
-                  <span>
-                    {{ val1[1] }}
+                  <span class="text-sm font-medium whitespace-normal break-words">
+                    <slot
+                      :name="entry[0]"
+                      :text="entry[1]"
+                      :value="val"
+                    >
+                      {{ entry[1] }}
+                    </slot>
                   </span>
                 </div>
               </template>

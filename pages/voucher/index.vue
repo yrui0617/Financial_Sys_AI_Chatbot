@@ -281,7 +281,12 @@ onMounted(() => {
               Voucher Management System
             </h1>
             <p class="text-gray-600">
-              Overview of all financial vouchers, their status, and actions.
+              <span v-if="isStaff">
+                Overview of all financial vouchers, their status, and actions.
+              </span>
+              <span v-else>
+                Overview of your vouchers, their status, and next steps.
+              </span>
             </p>
           </div>
           <button

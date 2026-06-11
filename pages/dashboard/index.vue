@@ -1,4 +1,7 @@
 <script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useUserStore } from '~/stores/user';
+
 definePageMeta({
   title: "Dashboard",
   middleware: ["auth"],
@@ -10,6 +13,9 @@ definePageMeta({
     },
   ],
 });
+
+const userStore = useUserStore();
+const isStaff = computed(() => userStore.roles?.includes('Staff'));
 
 const billCount = ref([]);
 const voucherCount = ref([]);
@@ -65,7 +71,7 @@ onMounted(() => {
               {{ billCount }}
           </p>
 
-          <p v-if="userRole === 'Staff'" class="text-xs opacity-60 mt-1">Total bills created</p>
+          <p v-if="isStaff" class="text-xs opacity-60 mt-1">Total bills created</p>
           <p v-else class="text-xs opacity-60 mt-1">Total bills need to pay</p>
 
           <img src="/img/buku-resit.png"
@@ -80,7 +86,7 @@ onMounted(() => {
           {{ voucherCount }}
           </p>
 
-          <p v-if="userRole === 'Staff'" class="text-xs opacity-60 mt-1">Total vouchers created</p>
+          <p v-if="isStaff" class="text-xs opacity-60 mt-1">Total vouchers created</p>
           <p v-else class="text-xs opacity-60 mt-1">Available vouchers</p>
 
           <img src="/img/voucher.png"
