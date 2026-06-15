@@ -289,7 +289,7 @@ onMounted(() => {
               </span>
             </p>
           </div>
-          <button
+          <button v-if="isStaff"
             @click="openCreateModal"
             class="px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-md flex items-center gap-2 transition disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-primary/20"
           >
