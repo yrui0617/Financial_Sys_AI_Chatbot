@@ -65,7 +65,7 @@ const voucherTableData = computed(() =>
 
 function createVoucherRow(voucher) {
   const row = {
-    voucherId: voucher.voucherID,
+    voucherID: voucher.voucherID,
     Description: voucher.voucherDescription,
     Amount: voucher.voucherAmount,
     Status: voucher.voucherStatus,
