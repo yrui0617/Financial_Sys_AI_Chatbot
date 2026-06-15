@@ -153,60 +153,62 @@ onMounted(() => {
     </rs-card>
 
     <!-- TABLE -->
-    <rs-card class="transition-all duration-300 overflow-x-auto m-auto mb-20">
-      <rs-table
-        :data="approvalTableData"
-        :options="{
-          variant: 'default',
-          striped: true,
-          borderless: true,
-        }"
-        :options-advanced="{
-          sortable: true,
-          responsive: true,
-          filterable: false,
-        }"
-        advanced
-      >
-        <template v-slot:Amount="data">
-          {{ formatCurrency(data.text) }}
-        </template>
+    <div class="space-y-6">
+      <rs-card class="transition-all duration-300 overflow-x-auto m-auto mb-20">
+        <rs-table
+          :data="approvalTableData"
+          :options="{
+            variant: 'default',
+            striped: true,
+            borderless: true,
+          }"
+          :options-advanced="{
+            sortable: true,
+            responsive: true,
+            filterable: false,
+          }"
+          advanced
+        >
+          <template v-slot:Amount="data">
+            {{ formatCurrency(data.text) }}
+          </template>
 
-        <template v-slot:Status="data">
-          <rs-badge :variant="getStatusVariant(data.text)">
-            {{ data.text }}
-          </rs-badge>
-        </template>
+          <template v-slot:Status="data">
+            <rs-badge :variant="getStatusVariant(data.text)">
+              {{ data.text }}
+            </rs-badge>
+          </template>
 
-        <template v-slot:CreatedDate="data">
-          {{ formatDate(data.text) }}
-        </template>
+          <template v-slot:CreatedDate="data">
+            {{ formatDate(data.text) }}
+          </template>
 
-        <template v-slot:SourceBillId="data">
-          #B00{{ data.text }}
-        </template>
+          <template v-slot:SourceBillId="data">
+            #B00{{ data.text }}
+          </template>
 
-        <template v-slot:action="data">
-          <div class="flex gap-2">
-            <button
-              @click="updateStatus(data.value.voucherId, 'Approved')"
-              class="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 text-white transition hover:bg-teal-600"
-              title="Approve"
-            >
-              <Icon name="ph:check" size="18" />
-            </button>
+          <template v-slot:action="data">
+            <div class="flex gap-2">
+              <button
+                @click="updateStatus(data.value.voucherId, 'Approved')"
+                class="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 text-white transition hover:bg-teal-600"
+                title="Approve"
+              >
+                <Icon name="ph:check" size="18" />
+              </button>
 
-            <button
-              @click="updateStatus(data.value.voucherId, 'Rejected')"
-              class="flex h-8 w-8 items-center justify-center rounded-full bg-red-500 text-white transition hover:bg-red-600"
-              title="Reject"
-            >
-              <Icon name="ph:x" size="18" />
-            </button>
-          </div>
-        </template>
-      </rs-table>
-    </rs-card>
+              <button
+                @click="updateStatus(data.value.voucherId, 'Rejected')"
+                class="flex h-8 w-8 items-center justify-center rounded-full bg-red-500 text-white transition hover:bg-red-600"
+                title="Reject"
+              >
+                <Icon name="ph:x" size="18" />
+              </button>
+            </div>
+          </template>
+        </rs-table>
+      </rs-card>
+    </div>
 
     <!-- TOAST -->
     <Teleport to="body">
